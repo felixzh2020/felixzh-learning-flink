@@ -29,7 +29,7 @@ public class Avro2Avro {
                 " 'properties.bootstrap.servers' = 'felixzh:9092',\n" +
                 " 'properties.group.id' = 'testGroup',\n" +
                 " 'format' = 'avro',\n" +
-                " 'property-version' = '1',\n" +
+                " 'property-version' = '1'\n" +
                 /*" 'avro-schema' = '{\"type\":\"record\",\"name\":\"Customer\",\"fields\":[{\"name\":\"id\",\"type\":\"int\"},{\"name\":\"name\",\"type\":\"string\"}]}'\n" +
                */ ")";
 
