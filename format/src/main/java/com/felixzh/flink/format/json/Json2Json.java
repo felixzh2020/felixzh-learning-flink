@@ -1,4 +1,4 @@
-package com.felixzh.flink.format.avro;
+package com.felixzh.flink.format.json;
 
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -7,13 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-/**
- * @author felixzh
- * 微信公众号：大数据从业者
- * 博客地址：https://www.cnblogs.com/felixzh/
- */
-public class Avro2Avro {
-    private static Logger logger = LoggerFactory.getLogger(Avro2Avro.class);
+public class Json2Json {
+    private static Logger logger = LoggerFactory.getLogger(Json2Json.class);
 
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -22,26 +17,33 @@ public class Avro2Avro {
         logger.info(env.getConfig().toString());
         StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 
-        String sourceDDL = "CREATE TABLE avro_source (id INT, name STRING) WITH (\n" +
+        String sourceDDL = "CREATE TABLE json_source (" +
+                "user_id INT, " +
+                "product STRING," +
+                "ts timestamp(3)," +
+                "watermark for ts as ts - interval '5' second" +
+                ") WITH (\n" +
                 " 'connector' = 'kafka',\n" +
                 " 'scan.startup.mode' = 'latest-offset',\n" +
-                " 'topic' = 'topic1',\n" +
+                " 'topic' = 'json_source',\n" +
                 " 'properties.bootstrap.servers' = 'felixzh:9092',\n" +
                 " 'properties.group.id' = 'testGroup',\n" +
-                " 'format' = 'avro'\n" +
+                " 'format' = 'json',\n" +
+                " 'json.fail-on-missing-field' = 'false',\n" +
+                " 'json.ignore-parse-errors' = 'true'\n" +
                 ")";
 
-        String sinkDDL = "CREATE TABLE avro_sink (id INT,name STRING) WITH (\n" +
+        String sinkDDL = "CREATE TABLE sink (user_id INT,product STRING) WITH (\n" +
                 " 'connector' = 'kafka',\n" +
-                " 'topic' = 'avro_sink',\n" +
+                " 'topic' = 'sink',\n" +
                 " 'properties.bootstrap.servers' = 'felixzh:9092',\n" +
-                " 'format' = 'avro'\n" +
+                " 'format' = 'json'\n" +
                 ")";
 
-        String transformSQL = "INSERT INTO avro_sink SELECT id,name FROM avro_source ";
+        String transformSQL = "insert into sink(user_id,product) SELECT user_id,product FROM json_source ";
 
         tableEnv.executeSql(sourceDDL);
         tableEnv.executeSql(sinkDDL);
-        tableEnv.executeSql(transformSQL).print();
+        tableEnv.executeSql(transformSQL);
     }
 }
