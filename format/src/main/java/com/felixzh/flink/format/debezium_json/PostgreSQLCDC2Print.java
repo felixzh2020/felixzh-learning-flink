@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author felixzh
  * 微信公众号：大数据从业者
+ * 文章地址：https://mp.weixin.qq.com/s/nWAkyThD2d7rQxBcKXRRLw
  * 博客地址：https://www.cnblogs.com/felixzh/
  */
 public class PostgreSQLCDC2Print {
