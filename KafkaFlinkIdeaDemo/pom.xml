@@ -13,14 +13,14 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <flink.version>1.6.0</flink.version>
+        <flink.version>1.12.2</flink.version>
         <scala.binary.version>2.11</scala.binary.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-kafka-0.11_${scala.binary.version}</artifactId>
+            <artifactId>flink-connector-kafka_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
 
@@ -28,24 +28,24 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
-            <!--<scope>compile</scope>-->  <!-- idea -->
-            <scope>provided</scope>  <!-- yarn cluster-->
+            <scope>compile</scope>  <!-- idea -->
+            <!--<scope>provided</scope>-->  <!-- yarn cluster-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-runtime-web_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
-            <!--<scope>compile</scope>-->  <!-- idea -->
-            <scope>provided</scope>  <!-- yarn cluster-->
+            <scope>compile</scope>  <!-- idea -->
+            <!--<scope>provided</scope> --> <!-- yarn cluster-->
         </dependency>
 
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-runtime_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
-            <!--<scope>compile</scope>-->  <!-- idea -->
-            <scope>provided</scope>  <!-- yarn cluster-->
+            <scope>compile</scope>  <!-- idea -->
+            <!--<scope>provided</scope>--> <!-- yarn cluster-->
         </dependency>
 
         <dependency>
@@ -99,7 +99,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>KafkaFlink</mainClass>
+                                    <mainClass>KafkaFlinkIdea</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
