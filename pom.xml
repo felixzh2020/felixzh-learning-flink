@@ -12,6 +12,7 @@
         <module>format</module>
         <module>KafkaFlinkIdeaDemo</module>
         <module>FlinkSqlGateWay_SessionClient</module>
+        <module>DataSkew</module>
     </modules>
 
 
