@@ -16,6 +16,7 @@
         <module>ExecutionModes</module>
         <module>MysqlCDC</module>
         <module>MyWindowTrigger</module>
+        <module>FlinkMLs</module>
     </modules>
 
 
