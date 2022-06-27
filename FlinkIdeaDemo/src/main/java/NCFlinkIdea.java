@@ -9,8 +9,13 @@ public class NCFlinkIdea {
         DataStream<String> socketData = env.socketTextStream("felixzh", 4444);
 
         //方法1：通过反射newInstance实例化对象。优点：解耦、可配置类名称
-        String mapFunctionClassName = "MyMapFunction1";
-        //String mapFunctionClassName = "MyMapFunction";
+        String mapFunctionClassName = null;
+        if (args.length == 1 && args[0] != null) {
+            mapFunctionClassName = args[0];
+        } else {
+            mapFunctionClassName = "MyMapFunction1";
+            //mapFunctionClassName = "MyMapFunction";
+        }
         Class<?> myMapFunction = Class.forName(mapFunctionClassName);
         Object object = myMapFunction.newInstance();
         socketData.map((MapFunction<String, Object>) object).print();

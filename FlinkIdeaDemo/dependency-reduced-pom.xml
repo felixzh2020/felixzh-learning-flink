@@ -6,7 +6,7 @@
     <version>1.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>KafkaFlinkIdeaDemo</artifactId>
+  <artifactId>FlinkIdeaDemo</artifactId>
   <build>
     <plugins>
       <plugin>
@@ -30,8 +30,6 @@
               <artifactSet>
                 <excludes>
                   <exclude>com.google.code.findbugs:jsr305</exclude>
-                  <exclude>org.slf4j:*</exclude>
-                  <exclude>log4j:*</exclude>
                 </excludes>
               </artifactSet>
               <filters>
@@ -46,7 +44,10 @@
               </filters>
               <transformers>
                 <transformer>
-                  <mainClass>KafkaFlinkIdea</mainClass>
+                  <mainClass>NCFlinkIdea</mainClass>
+                </transformer>
+                <transformer>
+                  <resource>reference.conf</resource>
                 </transformer>
               </transformers>
             </configuration>
@@ -55,9 +56,17 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+    <dependency>
+      <groupId>felixzh-learning-flink</groupId>
+      <artifactId>UserDefinedFunctions</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
   <properties>
     <scala.binary.version>2.11</scala.binary.version>
-    <flink.version>1.12.2</flink.version>
+    <flink.version>1.13.6</flink.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>
