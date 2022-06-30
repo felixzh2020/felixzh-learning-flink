@@ -44,7 +44,7 @@
               </filters>
               <transformers>
                 <transformer>
-                  <mainClass>NCFlinkIdea</mainClass>
+                  <mainClass>NCFlinkUDFIdea</mainClass>
                 </transformer>
                 <transformer>
                   <resource>reference.conf</resource>
