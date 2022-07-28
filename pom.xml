@@ -11,13 +11,13 @@
     <modules>
         <module>format</module>
         <module>FlinkIdeaDemo</module>
-        <module>FlinkSqlGateWay_SessionClient</module>
+        <!--<module>FlinkSqlGateWay_SessionClient</module>-->
         <module>DataSkew</module>
         <module>ExecutionModes</module>
-        <module>MysqlCDC</module>
         <module>MyWindowTrigger</module>
         <module>FlinkMLs</module>
         <module>UserDefinedFunctions</module>
+        <module>FlinkSubmitByShell</module>
     </modules>
 
 
