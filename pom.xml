@@ -18,6 +18,7 @@
         <module>FlinkMLs</module>
         <module>UserDefinedFunctions</module>
         <module>FlinkSubmitByShell</module>
+        <module>JarManifestParserDemo</module>
     </modules>
 
 
