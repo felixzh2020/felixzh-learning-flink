@@ -12,3 +12,4 @@ target/
 *.toc
 *.synctex.gz
 *.out
+*/dependency-reduced-pom.xml

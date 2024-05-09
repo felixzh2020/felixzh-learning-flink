@@ -19,6 +19,7 @@
         <module>UserDefinedFunctions</module>
         <module>FlinkSubmitByShell</module>
         <module>JarManifestParserDemo</module>
+        <module>Kafka2Kafka</module>
     </modules>
 
 

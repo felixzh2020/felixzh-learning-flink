@@ -1,0 +1,50 @@
+import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.api.common.serialization.SimpleStringSchema;
+import org.apache.flink.api.java.utils.ParameterTool;
+import org.apache.flink.connector.base.DeliveryGuarantee;
+import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
+import org.apache.flink.connector.kafka.sink.KafkaSink;
+import org.apache.flink.connector.kafka.source.KafkaSource;
+import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
+import org.apache.flink.streaming.api.CheckpointingMode;
+import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.kafka.clients.producer.ProducerConfig;
+
+public class Kafka2Kafka {
+    public static void main(String[] args) throws Exception {
+        if (args.length != 1) {
+            System.out.println("Usage: flink run -t yarn-per-job -d /path/to/jar /path/to/Kafka2Kafka.properties");
+            System.exit(0);
+        }
+
+        ParameterTool parameterTool = ParameterTool.fromPropertiesFile(args[0]);
+
+        StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+        env.enableCheckpointing(60000, CheckpointingMode.EXACTLY_ONCE);
+
+        KafkaSource<String> source = KafkaSource.<String>builder()
+                .setBootstrapServers(parameterTool.get("source.brokers"))
+                .setTopics(parameterTool.get("source.topic"))
+                .setGroupId(parameterTool.get("source.groupId"))
+                .setStartingOffsets(OffsetsInitializer.latest())
+                .setValueOnlyDeserializer(new SimpleStringSchema())
+                .build();
+
+        KafkaSink<String> sink = KafkaSink.<String>builder()
+                .setBootstrapServers(parameterTool.get("sink.brokers"))
+                .setRecordSerializer(
+                        KafkaRecordSerializationSchema.builder()
+                                .setTopic(parameterTool.get("sink.topic"))
+                                .setValueSerializationSchema(new SimpleStringSchema())
+                                .build())
+                .setDeliveryGuarantee(DeliveryGuarantee.EXACTLY_ONCE)
+                .setProperty(ProducerConfig.TRANSACTION_TIMEOUT_CONFIG, "60000")
+                .build();
+
+        DataStream<String> stream = env.fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka Source");
+        stream.sinkTo(sink);
+
+        env.execute("Kafka2Kafka");
+    }
+}
